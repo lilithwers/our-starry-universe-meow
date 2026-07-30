@@ -21,22 +21,21 @@ const musicButton = document.getElementById("musicToggle");
 
 
 
-// STARS BACKGROUND
 
-let stars = [];
+let stars=[];
 
 
-for(let i = 0; i < 500; i++){
+for(let i=0;i<500;i++){
 
 stars.push({
 
-x: Math.random() * innerWidth,
+x:Math.random()*innerWidth,
 
-y: Math.random() * innerHeight,
+y:Math.random()*innerHeight,
 
-size: Math.random() * 2,
+size:Math.random()*2,
 
-opacity: Math.random()
+opacity:Math.random()
 
 });
 
@@ -74,7 +73,10 @@ Math.PI*2
 ctx.fillStyle =
 `rgba(255,255,255,${s.opacity})`;
 
+
+
 ctx.fill();
+
 
 
 });
@@ -99,10 +101,10 @@ galaxy();
 function shootingStar(){
 
 
-let s = document.createElement("div");
+let s=document.createElement("div");
 
 
-s.className = "shooting";
+s.className="shooting";
 
 
 s.style.left =
@@ -171,16 +173,16 @@ const messages=[
 
 const positions=[
 
-[20,25],
-[35,18],
-[55,25],
-[75,15],
-[85,40],
-[65,55],
-[45,45],
-[25,65],
-[55,75],
-[80,80]
+[15,35],
+[30,25],
+[50,35],
+[70,28],
+[85,45],
+[70,65],
+[50,55],
+[30,75],
+[55,85],
+[85,80]
 
 ];
 
@@ -204,9 +206,11 @@ const connections=[
 
 
 
-let clickedStars = 0;
 
-let alreadyClicked = [];
+
+let clickedStars=0;
+
+let alreadyClicked=[];
 
 
 
@@ -282,7 +286,7 @@ spark.remove();
 
 
 
-// CREATE STARS (PHONE FIXED)
+// CREATE STARS
 
 
 function createStars(){
@@ -304,11 +308,11 @@ let star=document.createElement("div");
 star.className="star";
 
 
-// NO RANDOM MOVEMENT
+star.style.left=pos[0]+"%";
 
-star.style.left = pos[0]+"%";
+star.style.top=pos[1]+"%";
 
-star.style.top = pos[1]+"%";
+star.style.zIndex="20";
 
 
 
@@ -324,7 +328,7 @@ function openStar(event){
 event.preventDefault();
 
 
-if(alreadyClicked.includes(index)) return;
+if(alreadyClicked.includes(index)) return false;
 
 
 
@@ -336,13 +340,15 @@ clickedStars++;
 
 
 
-createClickSparkles(
 
-event.clientX || innerWidth*pos[0]/100,
+let x = event.clientX || innerWidth * pos[0]/100;
 
-event.clientY || innerHeight*pos[1]/100
+let y = event.clientY || innerHeight * pos[1]/100;
 
-);
+
+
+createClickSparkles(x,y);
+
 
 
 
@@ -350,11 +356,14 @@ star.classList.add("active");
 
 
 
+
 let card=document.getElementById("messageCard");
+
 
 
 document.getElementById("messageText").innerHTML =
 messages[index];
+
 
 
 card.classList.add("show");
@@ -376,7 +385,9 @@ if(clickedStars>=7){
 
 setTimeout(()=>{
 
+
 showFinalReveal();
+
 
 },2500);
 
@@ -384,6 +395,7 @@ showFinalReveal();
 }
 
 
+
 }
 
 
@@ -391,16 +403,23 @@ showFinalReveal();
 
 
 star.addEventListener(
+
 "click",
+
 openStar
+
 );
 
 
 
 star.addEventListener(
-"touchstart",
+
+"touchend",
+
 openStar,
+
 {passive:false}
+
 );
 
 
@@ -535,6 +554,7 @@ let size=2+Math.random()*5;
 
 p.style.width=size+"px";
 
+
 p.style.height=size+"px";
 
 
@@ -584,7 +604,9 @@ activeStars.forEach((star,index)=>{
 
 setTimeout(()=>{
 
+
 star.classList.add("fly");
+
 
 },index*150);
 
@@ -623,6 +645,7 @@ document.body.appendChild(reveal);
 },2500);
 
 
+
 }
 
 
@@ -638,7 +661,11 @@ document.body.appendChild(reveal);
 
 document
 .getElementById("begin")
-.onclick=()=>{
+.addEventListener("click",(e)=>{
+
+
+e.stopPropagation();
+
 
 
 document
@@ -664,7 +691,6 @@ console.log("music started 🎵");
 console.log("music blocked:",error);
 
 });
-
 
 }
 
@@ -695,7 +721,7 @@ drawLines();
 
 
 
-};
+});
 
 
 
