@@ -380,7 +380,7 @@ card.classList.remove("show");
 
 
 
-if(clickedStars>=7){
+if(clickedStars>=5){
 
 
 setTimeout(()=>{
