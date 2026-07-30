@@ -903,3 +903,42 @@ box-shadow:
 
 
 }
+/* MOBILE FIXES */
+
+.star {
+    width: 28px;
+    height: 28px;
+    margin-left: -14px;
+    margin-top: -14px;
+}
+
+.star::before {
+    content: "";
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    left: -13px;
+    top: -13px;
+}
+
+
+@media (max-width: 600px){
+
+    .star {
+        width: 32px;
+        height: 32px;
+        margin-left: -16px;
+        margin-top: -16px;
+    }
+
+    #messageCard {
+        width: 85%;
+        font-size: 16px;
+    }
+
+    #begin {
+        font-size: 18px;
+        padding: 15px 25px;
+    }
+
+}
