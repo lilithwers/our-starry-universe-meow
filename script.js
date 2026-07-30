@@ -650,7 +650,13 @@ music.volume=0.5;
 
 
 music.play()
-.catch(()=>{});
+.then(()=>{
+    console.log("music started 🎵");
+})
+.catch((error)=>{
+    console.log("music blocked:", error);
+});
+
 
 
 }
