@@ -20,20 +20,23 @@ const musicButton = document.getElementById("musicToggle");
 
 
 
-let stars=[];
+
+// STARS BACKGROUND
+
+let stars = [];
 
 
-for(let i=0;i<500;i++){
+for(let i = 0; i < 500; i++){
 
 stars.push({
 
-x:Math.random()*innerWidth,
+x: Math.random() * innerWidth,
 
-y:Math.random()*innerHeight,
+y: Math.random() * innerHeight,
 
-size:Math.random()*2,
+size: Math.random() * 2,
 
-opacity:Math.random()
+opacity: Math.random()
 
 });
 
@@ -54,7 +57,9 @@ canvas.height
 
 stars.forEach(s=>{
 
+
 ctx.beginPath();
+
 
 ctx.arc(
 s.x,
@@ -65,9 +70,9 @@ Math.PI*2
 );
 
 
+
 ctx.fillStyle =
 `rgba(255,255,255,${s.opacity})`;
-
 
 ctx.fill();
 
@@ -88,15 +93,16 @@ galaxy();
 
 
 
-
 // SHOOTING STARS
 
 
 function shootingStar(){
 
-let s=document.createElement("div");
 
-s.className="shooting";
+let s = document.createElement("div");
+
+
+s.className = "shooting";
 
 
 s.style.left =
@@ -198,10 +204,9 @@ const connections=[
 
 
 
+let clickedStars = 0;
 
-let clickedStars=0;
-
-let alreadyClicked=[];
+let alreadyClicked = [];
 
 
 
@@ -267,7 +272,6 @@ spark.remove();
 
 }
 
-
 }
 
 
@@ -278,7 +282,7 @@ spark.remove();
 
 
 
-// CREATE STARS
+// CREATE STARS (PHONE FIXED)
 
 
 function createStars(){
@@ -300,9 +304,12 @@ let star=document.createElement("div");
 star.className="star";
 
 
-star.style.left=Math.random()*100+"%";
+// NO RANDOM MOVEMENT
 
-star.style.top=Math.random()*100+"%";
+star.style.left = pos[0]+"%";
+
+star.style.top = pos[1]+"%";
+
 
 
 field.appendChild(star);
@@ -310,31 +317,30 @@ field.appendChild(star);
 
 
 
-setTimeout(()=>{
+
+function openStar(event){
 
 
-star.style.left=pos[0]+"%";
-
-star.style.top=pos[1]+"%";
-
-star.style.opacity="1";
+event.preventDefault();
 
 
-},index*250);
+if(alreadyClicked.includes(index)) return;
 
 
 
+alreadyClicked.push(index);
 
 
+clickedStars++;
 
-star.onclick=(event)=>{
+
 
 
 createClickSparkles(
 
-event.clientX,
+event.clientX || innerWidth*pos[0]/100,
 
-event.clientY
+event.clientY || innerHeight*pos[1]/100
 
 );
 
@@ -355,19 +361,6 @@ card.classList.add("show");
 
 
 
-if(!alreadyClicked.includes(index)){
-
-
-alreadyClicked.push(index);
-
-
-clickedStars++;
-
-
-}
-
-
-
 setTimeout(()=>{
 
 card.classList.remove("show");
@@ -383,18 +376,32 @@ if(clickedStars>=7){
 
 setTimeout(()=>{
 
-
 showFinalReveal();
 
+},2500);
 
-},3500);
+
+}
 
 
 }
 
 
 
-};
+
+
+star.addEventListener(
+"click",
+openStar
+);
+
+
+
+star.addEventListener(
+"touchstart",
+openStar,
+{passive:false}
+);
 
 
 
@@ -446,23 +453,24 @@ let b=stars[pair[1]];
 
 
 
-if(a&&b){
-
-
 lineCtx.moveTo(
-a.offsetLeft+9,
-a.offsetTop+9
+
+a.offsetLeft + a.offsetWidth/2,
+
+a.offsetTop + a.offsetHeight/2
+
 );
 
 
 
 lineCtx.lineTo(
-b.offsetLeft+9,
-b.offsetTop+9
+
+b.offsetLeft + b.offsetWidth/2,
+
+b.offsetTop + b.offsetHeight/2
+
 );
 
-
-}
 
 
 });
@@ -527,7 +535,6 @@ let size=2+Math.random()*5;
 
 p.style.width=size+"px";
 
-
 p.style.height=size+"px";
 
 
@@ -577,9 +584,7 @@ activeStars.forEach((star,index)=>{
 
 setTimeout(()=>{
 
-
 star.classList.add("fly");
-
 
 },index*150);
 
@@ -618,7 +623,6 @@ document.body.appendChild(reveal);
 },2500);
 
 
-
 }
 
 
@@ -651,12 +655,15 @@ music.volume=0.5;
 
 music.play()
 .then(()=>{
-    console.log("music started 🎵");
-})
-.catch((error)=>{
-    console.log("music blocked:", error);
-});
 
+console.log("music started 🎵");
+
+})
+.catch(error=>{
+
+console.log("music blocked:",error);
+
+});
 
 
 }
